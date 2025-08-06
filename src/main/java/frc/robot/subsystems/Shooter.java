@@ -46,20 +46,17 @@ public class Shooter extends SubsystemBase {
     m_ShooterMotor.set(0.0);
   }
 
-    //public Command ejectCoralCommand() {
-   // return new FunctionalCommand(() -> {
-    //}, this::runmotor, (x) -> runmotor(x) () -> !IsDetected(), this);
-//  }
-
-  public Command runOutputMotor() {
+  public Command runShooterMotor() {
     return new StartEndCommand(this::runmotor, this::stopmotor, this);
   }
 
-  public Command runOutputMotor2() {
+  public Command runShooterMotor2() {
     return Commands.runOnce(this::runmotor, this);
   }
-
-
+  public Command stopshooterMoter() {
+    return Commands.runOnce(this::stopmotor, this);
+  }
+  
   public void periodic() {
    }
 }
