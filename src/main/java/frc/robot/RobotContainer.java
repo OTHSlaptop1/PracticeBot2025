@@ -16,13 +16,16 @@ import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 import swervelib.SwerveInputStream;
-
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Shooter;
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, very
  * little robot logic should actually be handled in the {@link Robot} periodic methods (other than the scheduler calls).
@@ -33,10 +36,13 @@ public class RobotContainer
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   final         CommandXboxController driverXbox = new CommandXboxController(0);
+  final         CommandXboxController opXbox     = new CommandXboxController(1);
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem       drivebase  = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
                                                                                 "swerve/neo"));
 
+  private final Shooter shooter = new Shooter();
+  private final Intake intake = new Intake();
   /**
    * Converts driver input into a field-relative ChassisSpeeds that is controlled by angular velocity.
    */
@@ -171,10 +177,12 @@ public class RobotContainer
       driverXbox.x().onTrue(Commands.runOnce(drivebase::addFakeVisionReading));
       driverXbox.start().whileTrue(Commands.none());
       driverXbox.back().whileTrue(Commands.none());
-      driverXbox.leftBumper().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
-      driverXbox.rightBumper().onTrue(Commands.none());
+      driverXbox.leftTrigger().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
+      driverXbox.rightTrigger().onTrue(Commands.none());
     }
-
+    opXbox.leftTrigger().onTrue(Commands.runOnce(() -> intake.runIntakeMotor()));
+    opXbox.rightTrigger().onTrue(Commands.runOnce(() -> intake.stopIntakeMotor()));
+    opXbox.rightBumper().onTrue(Commands.runOnce(() -> runIntakeAndShooterMotor()));
   }
 
   /**
@@ -192,4 +200,10 @@ public class RobotContainer
   {
     drivebase.setMotorBrake(brake);
   }
+
+   public Command runIntakeAndShooterMotor() {
+    return new SequentialCommandGroup(shooter.runShooterMotor(), new WaitCommand(.5),
+     intake.runIntakeMotor(), new WaitCommand(1),  
+     intake.stopIntakeMotor(), shooter.stopShooterMotor());
+   }
 }

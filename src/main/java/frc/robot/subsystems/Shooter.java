@@ -13,6 +13,7 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -38,7 +39,7 @@ public class Shooter extends SubsystemBase {
 
     // runs motor
     public void runmotor() {
-      m_ShooterMotor.set(-.3);
+      m_ShooterMotor.set(0.4);
     }
 
     // stops motor
@@ -53,10 +54,9 @@ public class Shooter extends SubsystemBase {
   public Command runShooterMotor2() {
     return Commands.runOnce(this::runmotor, this);
   }
-  public Command stopshooterMoter() {
+  public Command stopShooterMotor() {
     return Commands.runOnce(this::stopmotor, this);
   }
   
-  public void periodic() {
-   }
+ 
 }

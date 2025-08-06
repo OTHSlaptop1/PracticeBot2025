@@ -56,4 +56,9 @@ public final class Constants
      public static final double kShooterKv = 0;
      
   }
+
+  public static class IntakeConstants {
+    public static final int kIntakeMotorPort = 0;
+    public static final double kIntakeMotorSpeed = 0.5; // Speed for the intake motor
+  }
 }
