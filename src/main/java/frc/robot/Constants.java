@@ -49,7 +49,7 @@ public final class Constants
     public static final double TURN_CONSTANT    = 6;
   }
   public static class ShooterConstants {
-     public static final int kShooterMotorPort = 5;
+     public static final int kShooterMotorPort = 10;
      public static final double kShooterKp = 0;
      public static final double kShooterKi = 0;
      public static final double kShooterKd = 0;
