@@ -49,7 +49,7 @@ public final class Constants
     public static final double TURN_CONSTANT    = 6;
   }
   public static class ShooterConstants {
-     public static final int kShooterMotorPort = 12;
+     public static final int kShooterMotorPort = 13;
      public static final double kShooterKp = 0;
      public static final double kShooterKi = 0;
      public static final double kShooterKd = 0;
@@ -58,7 +58,7 @@ public final class Constants
   }
 
   public static class IntakeConstants {
-    public static final int kIntakeMotorPort = 0;
+    public static final int kIntakeMotorPort = 12;
     public static final double kIntakeMotorSpeed = 0.5; // Speed for the intake motor
   }
 }
