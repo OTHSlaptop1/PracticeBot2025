@@ -37,7 +37,7 @@ public class Shooter extends SubsystemBase {
   private DCMotor m_ShooterGearbox = DCMotor.getNEO(3);
 
   public Shooter() {
-
+    // Configure the shooter motor
     SparkMaxConfig ShooterMotorConfig = new SparkMaxConfig();
 
     ShooterMotorConfig.smartCurrentLimit(50).idleMode(IdleMode.kBrake);
@@ -58,18 +58,16 @@ public class Shooter extends SubsystemBase {
   public void stopmotor() {
     m_ShooterMotor.set(0.0);
   }
-
+  // Runs motor
   public Command runShooterMotor() {
     return new StartEndCommand(this::runmotor, this::stopmotor, this);
   }
 
-  public Command runShooterMotor2() {
-    return Commands.runOnce(this::runmotor, this);
-  }
+  // stops motor
   public Command stopShooterMotor() {
     return Commands.runOnce(this::stopmotor, this);
   }
-  
+  // Creates a simulation
  public class ShooterSimulation {
   private boolean havePiece = false;
 
@@ -80,7 +78,7 @@ public class Shooter extends SubsystemBase {
     public void ejectCoralSim() {
       m_OutputSim.addGamePieceProjectile(m_Drive.getMapleSimDrive().get(), 37.5);
     }
-
+    // Adds gamepieces
     public void addGamePieceProjectile(SwerveDriveSimulation driveSimulation, double height) {
       SimulatedArena.getInstance().addGamePieceProjectile(new ReefscapeCoralOnFly(
           // Obtain robot position from drive simulation

@@ -22,11 +22,9 @@ public class Intake extends SubsystemBase {
     // Configure the intake motor
 
     m_IntakeMotor.setNeutralMode(NeutralModeValue.Brake);
-
-    // runs motor
-
   }
 
+  // Runs motor
   public void runmotor() {
     m_IntakeMotor.set(Constants.IntakeConstants.kIntakeMotorSpeed);
   }
