@@ -45,7 +45,7 @@ public class RobotContainer {
   private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
       "swerve/neo"));
 
-  private final Shooter shooter = new Shooter();
+  //private final Shooter shooter = new Shooter();
   private final Intake intake = new Intake();
   /**
    * Converts driver input into a field-relative ChassisSpeeds that is controlled
@@ -189,9 +189,9 @@ public class RobotContainer {
       driverXbox.rightTrigger().onTrue(Commands.none());
     }
     // Operator bindings
-    opXbox.leftTrigger().onTrue(Commands.runOnce(() -> intake.runIntakeMotor()));
-    opXbox.rightTrigger().onTrue(Commands.runOnce(() -> intake.stopIntakeMotor()));
-    opXbox.rightBumper().onTrue(Commands.runOnce(() -> runIntakeAndShooterMotor()));
+    opXbox.rightTrigger().whileTrue(Commands.runOnce(() -> intake.runIntakeMotor()));
+    //opXbox.rightTrigger().onTrue(Commands.runOnce(() -> intake.stopIntakeMotor()));
+    //opXbox.rightBumper().onTrue(Commands.runOnce(() -> runIntakeAndShooterMotor()));
   }
 
   /**
@@ -199,18 +199,20 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
+  /**public Command getAutonomousCommand() {
     // An example command will be run in autonomous
     return drivebase.getAutonomousCommand("New Auto");
   }
-
+   // commands used in PathPlanner
+   NamedCommands.registerCommand("AutoScore", ReefbotAutoForAutonomous.AutoOutput());**/
+  
   public void setMotorBrake(boolean brake) {
     drivebase.setMotorBrake(brake);
   }
 
-  public Command runIntakeAndShooterMotor() {
-    return new SequentialCommandGroup(shooter.runShooterMotor(), new WaitCommand(.5),
-        intake.runIntakeMotor(), new WaitCommand(1),
-        intake.stopIntakeMotor(), shooter.stopShooterMotor());
-  }
+  // public Command runIntakeAndShooterMotor() {
+  //   return new SequentialCommandGroup(shooter.runShooterMotor(), new WaitCommand(.5),
+  //       intake.runIntakeMotor(), new WaitCommand(1),
+  //       intake.stopIntakeMotor(), shooter.stopShooterMotor());
+  // }
 }
